@@ -117,7 +117,7 @@ export async function activate(context: vscode.ExtensionContext) {
         await common.InitializeSettings(true, false).then(async (resolve) => {
 
             syncSetting = resolve;
-            myGi = new GithubService(syncSetting.Token);
+            myGi = new GithubService(syncSetting);
             await startGitProcess();
 
         }, (reject) => {
@@ -290,7 +290,7 @@ export async function activate(context: vscode.ExtensionContext) {
 
         async function StartDownload() {
 
-            myGi = new GithubService(syncSetting.Token);
+            myGi = new GithubService(syncSetting);
             vscode.window.setStatusBarMessage("");
             vscode.window.setStatusBarMessage("Sync : Reading Settings Online.", 2000);
 

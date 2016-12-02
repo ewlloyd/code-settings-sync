@@ -2,16 +2,15 @@
 
 import * as envir from './environmentPath';
 import * as fileManager from './fileManager';
+import {LocalSetting} from './setting';
 import * as vscode from 'vscode';
 
 var proxyURL: string = vscode.workspace.getConfiguration("http")["proxy"] || process.env["http_proxy"];
 var GitHubApi = require("github");
-var github = new GitHubApi({
-    proxy: proxyURL,
-    version: "3.0.0",
-});
 
 export class GithubService {
+
+    private github = null;
 
     private GIST_JSON_EMPTY: any = {
         "description": "Visual Studio Code Sync Settings GIST",
@@ -43,10 +42,24 @@ export class GithubService {
 
     private GIST_JSON: any = null;
 
-    constructor(private TOKEN: string) {
-        github.authenticate({
+    constructor(private syncSetting: LocalSetting) {
+        if (syncSetting.hostName) {
+            this.github = new GitHubApi({
+                proxy: proxyURL,
+                protocol: syncSetting.protocol || "https",
+                pathPrefix: syncSetting.pathPrefix || "/api/v3",
+                host: syncSetting.hostName,
+                version: "3.0.0"
+            });
+        } else {
+            this.github = new GitHubApi({
+                proxy: proxyURL,
+                version: "3.0.0"
+            });
+        }
+        this.github.authenticate({
             type: "oauth",
-            token: TOKEN
+            token: syncSetting.Token
         });
     }
 
@@ -69,7 +82,7 @@ export class GithubService {
         }
 
         return new Promise<string>((resolve, reject) => {
-            github.getGistsApi().create(me.GIST_JSON_EMPTY
+            this.github.getGistsApi().create(me.GIST_JSON_EMPTY
                 , function (err, res) {
                     if (err) {
                         console.error(err);
@@ -79,7 +92,7 @@ export class GithubService {
                         resolve(res.id);
                     } else {
                         console.error("ID is null");
-                        console.log("Sync : "+"Response from GitHub is: ");
+                        console.log("Sync : " + "Response from GitHub is: ");
                         console.log(res);
                     }
 
@@ -90,7 +103,7 @@ export class GithubService {
     public async ReadGist(GIST: string): Promise<any> {
         var me = this;
         return new Promise<any>(async (resolve, reject) => {
-            await github.getGistsApi().get({ id: GIST }, async function (er, res) {
+            await this.github.getGistsApi().get({ id: GIST }, async function (er, res) {
                 if (er) {
                     console.error(er);
                     reject(er);
@@ -130,7 +143,7 @@ export class GithubService {
 
         //TODO : turn diagnostic mode on for console.
         return new Promise<boolean>(async (resolve, reject) => {
-            await github.getGistsApi().edit(gistObject, function (ere, ress) {
+            await this.github.getGistsApi().edit(gistObject, function (ere, ress) {
                 if (ere) {
                     console.error(ere);
                     reject(false);
