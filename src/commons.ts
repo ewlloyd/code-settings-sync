@@ -215,7 +215,7 @@ export class Commons {
         var me = this;
         return new Promise<boolean>(async (resolve, reject) => {
             if (setting) {
-                await FileManager.WriteFile(me.en.APP_SETTINGS, JSON.stringify(setting)).then(function (added: boolean) {
+                await FileManager.WriteFile(me.en.APP_SETTINGS, JSON.stringify(setting, null, 2)).then(function (added: boolean) {
                     resolve(added);
                 }, function (err: any) {
                     reject(err);
