@@ -11,11 +11,11 @@
 
 ## Key Features
 ```
-1. Use your github account token and GIST.
+1. Use your GitHub account token and Gist.
 2. Easy to Upload and Download on one click.
 3. Upload Key : Shift + Alt + U
 4. Download Key : Shift + Alt + D
-5. Use Other User's Public GIST to completely sync your settings with them.
+5. Use Other User's Public Gist to completely sync your settings with them.
 6. Show a summary page at the end with details.
 7. Auto Download Latest Settings on Startup.
 8. Auto upload Settings on file change.
@@ -30,112 +30,109 @@
 5. VSCode Extensions
 ```
    
-## Steps To Get the Github Key.
+## Steps to Get the GitHub Key.
 
-This extension required your GitHub Account Personal Access Token. You can create one simple by looking into the following pictures. Make sure you add **GIST** in scope.
+This extension requires a Personal Access Token from your GitHub account. Here's how: You can create one simply by looking at the following pictures. Make sure you add **Gist** in scope.
 
-**Goto Settings / Personal Access Tokens / Generate New Token**
+**First, log into GitHub, go to [Settings / Personal Access Tokens](https://github.com/settings/tokens), and click [Generate New Token](](https://github.com/settings/tokens/new)**
 
 
 ![Goto Settings / Personal Access Tokens](http://shanalikhan.github.io/img/github1.PNG)
 
-**Select GIST From Scopes**
+**Next, enter a Token Description and check the "gist" scope under Select Scopes**
 
 ![Select Scopes](http://shanalikhan.github.io/img/github2.PNG)
 
-**Get Unique Key**
+**Then, click the clipboard icon to copy the token**
 
 ![Get Unique Key](http://shanalikhan.github.io/img/github3.PNG)
 
 
-> Save the Key somewhere for future use.
+> Make sure you save the key somewhere safe for future use.
 
 
-## Upload Your Settings For the first time
+## Upload Your Settings for the First Time
 
 
-**Press Shift + Alt + U it will ask your github account access token.**
+**Press Shift + Alt + U. You'll be prompted for the token you just created.**
 
-> Type ">Sync" In Command Palette into order download / upload
+> Alternatively, you can press Ctrl + P for the Command Palette and type ">Sync:Upload".
 
-Enter the github account in the window and click enter.
+Paste the token into the prompt and press Enter.
 
-![github account access token](http://shanalikhan.github.io/img/upload1.png)
+![GitHub account access token](http://shanalikhan.github.io/img/upload1.png)
 
-**Upload your settings automatically and give you GIST ID.**
-Copy this Gist ID in order to download the settings in other machines.
+**This will upload your settings to a new Gist, and show the Gist ID.**
+Copy this Gist ID in order to download your settings to Visual Studio Code running on other machines.
 
 ![uploaded automatically](http://shanalikhan.github.io/img/upload2.png)
 
 
 ## Download your Settings
 
-**Press Shift + Alt + D it will ask your github account access token.**
+**Press Shift + Alt + D. You'll be prompted for your GitHub Personal Access Token.** You *did* save it somewhere, didn't you?
 
-> Type ">Sync" In Command Palette into order download / upload
+> Alternatively, you can press Ctrl + P for the Command Palette and type ">Sync:Download".
 
-Enter the github account in the window and click enter.
+Enter the token into the prompt and press Enter.
 
-![github account access token](http://shanalikhan.github.io/img/upload1.png)
+![GitHub account access token](http://shanalikhan.github.io/img/upload1.png)
 
-**Enter Your GIST ID.**
-you need to enter your Gist ID in order to get the all files
+**Enter Your Gist ID.**
+Here's where you enter the Gist ID you got from the Upload operation.
 
-![Enter Your GIST ID](http://shanalikhan.github.io/img/download2.png)
+![Enter Your Gist ID](http://shanalikhan.github.io/img/download2.png)
 
 **Settings Downloaded.**
-You are Done! All your files are downloaded
+You are Done! All your settings are downloaded to your local Visual Studio Code.
 
-![Enter Your GIST ID](http://shanalikhan.github.io/img/download3.png)
+![Enter Your Gist ID](http://shanalikhan.github.io/img/download3.png)
 
-## Reset Token / GIST Settings
+## Reset Token / Gist Settings
 
-> Type ">Sync" In Command Palette and select Reset Token and GIST Settings
+> Type ">Sync" In Command Palette and select Reset Token and Gist Settings
 
 ## Toggle Auto Download
 
-Auto Download is **enabled by default**. It will sync all the setting by default when the editor starts.
-Please make sure you have valid github Token and GIST available to make it work properly.
+Auto Download is **enabled by default**. It will sync all the settings by default when the editor starts.
+Please make sure you have a valid GitHub token and Gist available to make it work properly.
 
-Select Command **"Sync : Advance Options > Toggle Auto-Download On Startup"** command to Turn ON / OFF the auto download.
+Select Command **"Sync:Advanced Options > Toggle Auto-Download On Startup"** command to Turn ON / OFF the auto download.
 
 ## Toggle Force Download
 
-Force Download is **disabled by default**. By default extension wont download the latest settings if you already have latest downloaded version , but sometime when you delete some extension locally and dont upload the settings it will still show you have latest versions by date or time checks, by turning this ON it will always download the cloud settings on startup.
+Force Download is **disabled by default**. By default extension won't download the latest settings if you already have the latest downloaded version, but sometime when you delete some extension locally and don't upload the settings it will still show you have latest versions by date or time checks, by turning this ON it will always download the cloud settings on startup.
 
-Please make sure you have valid github Token and GIST available to make it work properly.
+Please make sure you have a valid GitHub token and Gist available to make it work properly.
 
-Select Command **"Sync : Advance Options > Toggle Force Download"** command to Turn ON / OFF the force download.
+Select Command **"Sync:Advanced Options > Toggle Force Download"** command to Turn ON / OFF the force download.
 
 ## Toggle Auto-Upload on change
 Auto-upload is **disabled by default**. When the settings are changed and saved this feature will automatic start the upload process and save the settings online.
 
-Please make sure you have valid github Token and GIST available to make it work properly.
+Please make sure you have a valid GitHub token and Gist available to make it work properly.
 
-Select Command **"Sync : Advance Options > Toggle Auto-Upload on Setting Change"** command to Turn ON / OFF the auto-upload.
-
-
+Select Command **"Sync:Advanced Options > Toggle Auto-Upload on Setting Change"** command to Turn ON / OFF the auto upload.
 
 ## Toggle Summary
 
 Summary is **enabled by default** which shows all the files and extensions that are added or deleted in a single page.
-You may turn it off in order to make a upload and download process clean and quiet.  
+You may turn it off in order to make the upload and download process clean and quiet.  
 
-Select Command **"Sync : Advance Options > Toggle Summary Page On Upload / Download"** command to Turn ON / OFF the auto download.
+Select Command **"Sync:Advanced Options > Toggle Summary Page On Upload / Download"** command to Turn ON / OFF the auto download.
 
-## Create Public GIST To Share
+## Create Public Gist To Share
 
-By default, it creates secret GIST so only you can see it but if you want to share your GIST with other users, you can set it to public.
-You can't change the exiting GIST type from secret to public so it will reset the GIST ID so you can create new GIST with all the existing editor settings.
+By default, it creates secret Gist so only you can see it but if you want to share your Gist with other users, you can set it to public.
+You can't change the exiting Gist type from secret to public so it will reset the Gist ID so you can create new Gist with all the existing editor settings.
 
-Select Command **"Sync : Advance Options > Public / Private GIST Mode & Reset GIST"**
+Select Command **"Sync:Advanced Options > Public / Private Gist Mode & Reset Gist"**
 
 ## Fetch Other User's Settings
 
-You may give the GIST ID to other users , your friends or employees so they download each of the extensions or settings you upload but they cant edit your GIST or upload anything on your GIST.
+You may give the Gist ID to other users, your friends or employees so they download each of the extensions or settings you upload but they can't edit your Gist or upload anything on your Gist.
 
-Select Command **"Sync : Advance Options > Fetch Other User's Settings"**
-
+Select Command **"Sync:Advanced Options > Fetch Other User's Settings"**
 
 # Step By Step Tutorial For 
 
