@@ -556,14 +556,14 @@ export async function activate(context: vscode.ExtensionContext) {
 
         let items: Array<string> = new Array<string>();
         items.push("Sync : Open Extension Settings");
-        items.push("Sync : Toggle Public / Private GIST Mode & Reset GIST");
+        items.push("Sync : Toggle Public / Private GIST Mode (now " + (setting.publicGist ? "PUBLIC": "PRIVATE") + ") & Reset GIST");
         items.push("Sync : Fetch Other User's Settings");
         items.push("Sync : Open Issue");
         items.push("Sync : Release Notes");
-        items.push("Sync : Toggle Auto-Download On Startup");
-        items.push("Sync : Toggle Show Summary Page On Upload / Download");
-        items.push("Sync : Toggle Force Download");
-        items.push("Sync : Toggle Auto-Upload On Settings Change");
+        items.push("Sync : Toggle Auto-Download On Startup (now "+ (setting.autoDownload? "ON": "OFF") +")");
+        items.push("Sync : Toggle Show Summary Page On Upload / Download (now "+ (setting.showSummary? "ON": "OFF") +")");
+        items.push("Sync : Toggle Force Download (now "+ (setting.forceDownload? "ON": "OFF") +")");
+        items.push("Sync : Toggle Auto-Upload On Settings Change (now "+ (setting.autoUpload? "ON": "OFF") +")");
 
         var selectedItem: Number = 0;
         var settingChanged: boolean = false;
@@ -637,7 +637,7 @@ export async function activate(context: vscode.ExtensionContext) {
                     break;
                 }
                 case items[5]: {
-                    //auto downlaod on startup
+                    //auto download on startup
                     selectedItem = 6;
                     settingChanged = true;
 
