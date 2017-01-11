@@ -2,16 +2,15 @@
 
 import * as envir from './environmentPath';
 import * as fileManager from './fileManager';
+import { LocalConfig } from './setting'
 import * as vscode from 'vscode';
 
 var proxyURL: string = vscode.workspace.getConfiguration("http")["proxy"] || process.env["http_proxy"];
 var GitHubApi = require("github");
-var github = new GitHubApi({
-    proxy: proxyURL,
-    version: "3.0.0",
-});
 
 export class GithubService {
+    private github: any = null;
+    private urlBase: string = null;
 
     private GIST_JSON_EMPTY: any = {
         "description": "Visual Studio Code Sync Settings GIST",
@@ -45,15 +44,29 @@ export class GithubService {
 
     private GIST_JSON: any = null;
 
-    constructor(private TOKEN: string) {
-        if (TOKEN != null && TOKEN!='') {
+    constructor(private syncSetting: LocalConfig) {
+        if (syncSetting.config.token != null && syncSetting.config.token != '') {
             var self: GithubService = this;
-            github.authenticate({
+            if (syncSetting.config.hostName) {
+                this.github = new GitHubApi({
+                    proxy: proxyURL,
+                    protocol: syncSetting.config.protocol || "https",
+                    pathPrefix: syncSetting.config.pathPrefix || "/api/v3",
+                    host: syncSetting.config.hostName,
+                    version: "3.0.0"
+                });
+            } else {
+                this.github = new GitHubApi({
+                    proxy: proxyURL,
+                    version: "3.0.0"
+                });
+            }
+            this.github.authenticate({
                 type: "oauth",
-                token: TOKEN
+                token: syncSetting.config.token
             });
 
-            github.users.get({}, function (err, res) {
+            this.github.users.get({}, function (err, res) {
                 if (err) {
                     console.log(err);
                 }
@@ -62,6 +75,7 @@ export class GithubService {
                     self.name = res.name;
                 }
             });
+            this.urlBase = syncSetting.config.protocol + "://" + syncSetting.config.hostName;
         }
     }
 
@@ -86,7 +100,7 @@ export class GithubService {
         }
 
         return new Promise<string>((resolve, reject) => {
-            github.getGistsApi().create(me.GIST_JSON_EMPTY
+            this.github.getGistsApi().create(me.GIST_JSON_EMPTY
                 , function (err, res) {
                     if (err) {
                         console.error(err);
@@ -115,7 +129,7 @@ export class GithubService {
         let gist: any = me.AddFile(files, me.GIST_JSON_EMPTY);
 
         return new Promise<string>((resolve, reject) => {
-            github.getGistsApi().create(gist
+            this.github.getGistsApi().create(gist
                 , function (err, res) {
                     if (err) {
                         console.error(err);
@@ -137,7 +151,7 @@ export class GithubService {
     public async ReadGist(GIST: string): Promise<any> {
         var me = this;
         return new Promise<any>(async (resolve, reject) => {
-            await github.getGistsApi().get({ id: GIST }, async function (er, res) {
+            await this.github.getGistsApi().get({ id: GIST }, async function (er, res) {
                 if (er) {
                     console.error(er);
                     reject(er);
@@ -177,7 +191,7 @@ export class GithubService {
 
         //TODO : turn diagnostic mode on for console.
         return new Promise<boolean>(async (resolve, reject) => {
-            await github.getGistsApi().edit(gistObject, function (ere, ress) {
+            await this.github.getGistsApi().edit(gistObject, function (ere, ress) {
                 if (ere) {
                     console.error(ere);
                     reject(false);

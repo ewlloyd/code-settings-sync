@@ -167,6 +167,7 @@ export class Commons {
 
             if (askToken) {
                 if (settings.token == null || settings.token == "") {
+                    // TODO: browse to GHE instance if appropriate
                     openurl("https://github.com/settings/tokens");
 
                     await me.GetTokenAndSave(settings).then(function (token: string) {
@@ -267,26 +268,37 @@ export class Commons {
 
             let keys = Object.keys(setting);
             keys.forEach(async keyName => {
+                switch (keyName) {
+                    case "token":
+                        allKeysUpdated.push(me.context.globalState.update("synctoken", setting[keyName]));
+                        return;
 
-                if (keyName == "lastDownload" || keyName == "lastUpload") {
-                    try {
-                        let zz = new Date(setting[keyName]);
-                        setting[keyName] = zz;
-                    } catch (e) {
-                        setting[keyName] = new Date();
-                    }
-                }
+                    case "lastDownload":
+                    case "lastUpload":
+                        if (setting[keyName] === null)
+                            setting[keyName] = undefined;
+                        try {
+                            let zz = setting[keyName].toString();
+                            if (!(setting[keyName] instanceof Date)) {
+                                setting[keyName] = new Date(zz as string)
+                            }
+                        } catch (e) {
+                            setting[keyName] = undefined;
+                        }
+                        break;
+                    case "hostName":
+                    case "pathPrefix":
+                    case "protocol":
+                        if(setting[keyName] === null)
+                            setting[keyName] = undefined;                            
+                        break;
 
-                if (setting[keyName] == null) {
-                    setting[keyName] = "";
+                    default:
+                        if (setting[keyName] == null) {
+                            setting[keyName] = "";
+                        }
                 }
-
-                if (keyName.toLowerCase() == "token") {
-                    allKeysUpdated.push(me.context.globalState.update("synctoken", setting[keyName]));
-                }
-                else {
-                    allKeysUpdated.push(config.update(keyName, setting[keyName], true));
-                }
+                allKeysUpdated.push(config.update(keyName, setting[keyName], true));
             });
 
             Promise.all(allKeysUpdated).then(function (a) {

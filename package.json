@@ -85,6 +85,21 @@
                     "default": "",
                     "description": "Github GIST ID for Settings Sync."
                 },
+                "sync.hostName": {
+                    "type": "string",
+                    "default": "",
+                    "description": "For GitHub Enterprise customers, the name of your GHE server. Leave blank to use GitHub.com."
+                },
+                "sync.protocol": {
+                    "type": "string",
+                    "default": "https",
+                    "description": "For GitHub Enterprise customers, the protocol (http or https) your GHE server supports."
+                },
+                "sync.pathPrefix": {
+                    "type": "string",
+                    "default": "/api/v3",
+                    "description": "For GitHub Enterprise customers, the API path prefix for your GHE server."
+                },
                 "sync.lastUpload": {
                     "type": "string",
                     "default": "",

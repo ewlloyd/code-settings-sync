@@ -6,6 +6,9 @@ export class ExtensionConfig {
 
     public token: string = null;
     public gist: string = null;
+    public hostName: string = null;
+    public protocol: string = null;
+    public pathPrefix: string = null;
     public lastUpload: Date = null;
     public autoDownload: boolean = false;
     public autoUpload = false;
